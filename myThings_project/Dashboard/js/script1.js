@@ -2,7 +2,7 @@
 function onLoadPage(){
 	
 	// Load select input values
-	$.get("getData.jsp?func=getCampaigns", function(data){
+	$.get("getdata?func=getCampaigns", function(data){
 		var jsonData = JSON.parse(data);
         for(var i = 0; i < jsonData.length; i++) {
         	$('#advertiserSelect').append($("<option></option>").attr("value",jsonData[i].id).text(jsonData[i].name)); 
@@ -10,20 +10,6 @@ function onLoadPage(){
     });
 }
 
-
-$.get("getData.jsp?func=getExchanges", function(data){
-	var jsonData = JSON.parse(data);
-    for(var i = 0; i < jsonData.length; i++) {
-    	$('#exchangeSelect').append($("<option></option>").attr("value",jsonData[i].id).text(jsonData[i].name)); 
-    }
-});
-
-$.get("getData.jsp?func=getCampaigns", function(data){
-	var jsonData = JSON.parse(data);
-    for(var i = 0; i < jsonData.length; i++) {
-    	$('#campaignSelect').append($("<option></option>").attr("value",jsonData[i].id).text(jsonData[i].name)); 
-    }
-});
 
 $("#campaignSelect").change(function(){
 	$("#multiSelectors").empty();
