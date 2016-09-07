@@ -1,9 +1,9 @@
-function onLoadPage(){
+function showData(data){
 	// Load select input values
 	// showData() func that api wrote it
-	var jsonData = JSON.parse(showData());
-	for(var i = 0; i < jsonData.length; i++) 
-     	$('#exchangeSelect').append($("<option></option>").attr("value",jsonData[i].id).text(jsonData[i].name));
+	//var jsonData = JSON.parse(data);
+	for(var i = 0; i < data.length; i++) 
+     	$('#exchangeSelect').append($("<option></option>").text(jsonData[i].name));
 }
 
 
