@@ -7,11 +7,19 @@ $(document).ready(function() {
         	$('#exSelect').append($("<option></option>").attr("value",jsonData[i].id).text(jsonData[i].name)); 
     });
 	
+<<<<<<< HEAD
 	/*$.get("getdata?func=getAdv", function(data){
 		var jsonData = JSON.parse(data);
         for(var i = 0; i < jsonData.length; i++) 
         	$('#advSelect').append($("<option></option>").attr("value",jsonData[i].id).text(jsonData[i].name)); 
     });*/
+=======
+	$.get("getdata?func=getAdv", function(data){
+		var jsonData = JSON.parse(data);
+        for(var i = 0; i < jsonData.length; i++) 
+        	$('#advSelect').append($("<option></option>").attr("value",jsonData[i].id).text(jsonData[i].name)); 
+    });
+>>>>>>> ba3a808b81df12fdbe24bf28e2c5155c58251ef2
 });
 
 
