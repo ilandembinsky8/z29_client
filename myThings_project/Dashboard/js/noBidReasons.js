@@ -1,113 +1,30 @@
-var jsonBarChartData = 
-        [
-{
-	"Advertiser" : "CokaCola",
-	"Clicks": 34
-},
-{
-	"Advertiser" : "Pepsi",
-	"Clicks" : 54
-},
-{
-	"Advertiser" : "F",
-	"Clicks" : 21
-},
-{
-	"Advertiser" : "G",
-	"Clicks" : 57
-},
-{
-	"Advertiser" : "H",
-	"Clicks" : 31
-},
-{
-	"Advertiser" : "I",
-	"Clicks" : 17
-},
-{
-	"Advertiser" : "J",
-	"Clicks" : 5
-},
-{
-	"Advertiser" : "K",
-	"Clicks" : 23
-},
-{
-	"Advertiser" : "L",
-	"Clicks" : 39
-},
-{
-	"Advertiser" : "M",
-	"Clicks" : 29
-},
-{
-	"Advertiser" : "N",
-	"Clicks" : 33
-},
-{
-	"Advertiser" : "O",
-	"Clicks" : 18
-},
-{
-	"Advertiser" : "P",
-	"Clicks" : 35
-},
-{
-	"Advertiser" : "Q",
-	"Clicks" : 11
-},
-{
-	"Advertiser" : "R",
-	"Clicks" : 45
-},
-{
-	"Advertiser" : "S",
-	"Clicks" : 43
-},
-{
-	"Advertiser" : "T",
-	"Clicks" : 28
-},
-{
-	"Advertiser" : "U",
-	"Clicks" : 26
-},
-{
-	"Advertiser" : "V",
-	"Clicks" : 30
-}
-]
-        ;
+var root = 
+{"name":"Global","children":[{"name":"Denby\r","children":[{"name":"Denby_Visitors (DR)\r","children":[{"name":"Denby_Visitors (DR)_Default_Ad_Group\r","children":[{"name":"Lite_1114_Denby\r"},{"name":"Html_pager_0115\r"}]}]},{"name":"Denby (DR)\r","children":[{"name":"Denby (DR)_Default_Ad_Group\r","children":[{"name":"Html_pager_0115\r"},{"name":"G2gal_0912_Denby\r"},{"name":"Lite_1114_Denby\r"}]}]}]},{"name":"Cloggs\r","children":[{"name":"Cloggs (DR)\r","children":[{"name":"Cloggs (DR)_Default_Ad_Group\r","children":[{"name":"SLB_0913_Cloggs\r"},{"name":"G2html_0814_Cloggs\r"},{"name":"G2_SLB_1014_Cloggs\r"},{"name":"Html_SLB_1113_Cloggs\r"},{"name":"G2_SLB_1113_Cloggs\r"},{"name":"LP_0812_Cloggs\r"},{"name":"G2_SLB_0913_Cloggs\r"},{"name":"G2_SLB_0315_Cloggs_opening\r"}]}]},{"name":"Cloggs-MobileRet (DR)\r","children":[{"name":"Cloggs-MobileRet (DR)_Default_Ad_Group\r","children":[{"name":"G2html_0814_Cloggs\r"}]}]}]},{"name":"OrangeMobile\r","children":[{"name":"OrangeMobile-BasicLog\r","children":[{"name":"BasicLog\r","children":[{"name":"C_0715_Basic_Log\r"}]}]},{"name":"OrangeMobile-BasicNLog\r","children":[{"name":"BasicNLog\r","children":[{"name":"C_0715_Basic_NLog\r"}]}]},{"name":"OrangeMobile-ProductLog\r","children":[{"name":"ProductLog\r","children":[{"name":"Html_slb_0715-ProductLog\r"},{"name":"Html_pager_0715-ProductLog\r"},{"name":"Html_pagerBubble_0715-ProductLog\r"},{"name":"C_0715_Product_Log\r"}]}]},{"name":"OrangeMobile-ProductNLog\r","children":[{"name":"ProductNLog\r","children":[{"name":"C_0715_Product_NLog\r"}]}]}]}]};
+
 
 $(document).ready(function() {
 
-    // Load exchanges select input texts and values
-    $.get("getdata?func=getEx", function(data) {
-        var jsonData = JSON.parse(data);
-        for (var i = 0; i < jsonData.length; i++)
-            $('#exSelect').append($("<option></option>").attr("value", jsonData[i].id).text(jsonData[i].name));
+	// Load select input values
+	$.get("getdata?func=getEx", function(data){
+		var jsonData = JSON.parse(data);
+        for(var i = 0; i < jsonData.length; i++) 
+        	$('#exSelect').append($("<option></option>").attr("value",jsonData[i].id).text(jsonData[i].name)); 
     });
 });
 
 $("#exSelect").change(function() {
-    $("#noBidReasonLabel").empty();
-    $('#noBidReasonLabel').append('<label class="control-label">No Bid Reason</label>');
-
-    $("#noBidReason").empty();
-    $('#noBidReason').append('<select class="form-control" id="noBidReasonSelect" name="multiselect[]" multiple="multiple">' +
-        '</select></div></div>');
-
+   
+    $('#noBidReasonLabel').html('<label class="control-label">No Bid Reason</label>');
+    $('#noBidReason').html('<select class="form-control" id="noBidReasonSelect" name="multiselect[]" multiple="multiple"></select></div></div>');
 
     var exchSelectedID = $("#exSelect option:selected").val();
-    // Load NoBids select input texts and values for a specific exchange
-    $.get("getdata?func=getNoBidReasons&exchID=" + exchSelectedID, function(data) {
-
+    $.get("getdata?func=getNoBid&exchID=" + exchSelectedID, function(data) {
 
         var jsonData = JSON.parse(data);
-
-        for (var i = 0; i < jsonData.length; i++) {
+        
+        for (var i = 0; i < jsonData.length; i++) 
             $('#noBidReasonSelect').append($("<option></option>").attr("value", jsonData[i].id).text(jsonData[i].name));
-        }
+        
         $('#noBidReasonSelect').multiselect({
             nonSelectedText: 'Choose NoBids!',
             maxHeight: 200,
@@ -116,33 +33,21 @@ $("#exSelect").change(function() {
             buttonWidth: '100%',
 
             onSelectAll: function() {
-                // alert('onSelectAll triggered!');
             },
             onChange: function() {
-               /* var selectedNoBidsValues = [];
-                $('#noBidReasonSelect :selected').each(function(i, selected) {
-                    selectedNoBidsValues[i] = $(selected).val();
-                    alert("selectedNoBidValue=" + selectedNoBidsValues[i]);
-                });*/
-                noBidSelectedID = $("#noBidReasonSelect option:selected").val();
-                //alert(noBidSelectedID);
-                $.get("getdata?func=getGraph&exchID=" + exchSelectedID+"&noBidID="+noBidSelectedID, function(data) {
-               // jsonBarChartData = JSON.parse(data);
+                /* var selectedNoBidsValues = [];
+                 $('#noBidReasonSelect :selected').each(function(i, selected) {
+                     selectedNoBidsValues[i] = $(selected).val();
+                 });*/
+                 noBidSelectedID = $("#noBidReasonSelect option:selected").val();
                 
-                
-                });
-            }
+                 //$.get("getdata?func=getAdv&exchID=" + exchSelectedID+"&noBidID="+noBidSelectedID, function(data) {
+                	 $('#tree-container').empty();
+                	 //showTree(JSON.parse(data));
+                	 showTree(root);
+                 //});
+             }
         });
     });
 });
-
-function getBarChartData(){return jsonBarChartData;}
-
-function refreshMultiSelect() {
-
-    $("#noBidReasonSelect").multiselect("deselectAll", false);
-    $("#noBidReasonSelect").multiselect('rebuild');
-    $("#noBidReasonSelect").multiselect('refresh');
-
-}
 
